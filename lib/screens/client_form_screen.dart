@@ -36,7 +36,10 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
 
     if (isEditing) {
       final repo = context.read<FitnessClubRepository>();
-      final item = repo.allClients.cast<Client?>().firstWhere((c) => c?.id == widget.id, orElse: () => null);
+      final item = repo.allClients.cast<Client?>().firstWhere(
+        (c) => c?.id == widget.id,
+        orElse: () => null,
+      );
       if (item != null) {
         _nameController.text = item.fullName;
         _emailController.text = item.email;
@@ -62,7 +65,9 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
     final repo = context.read<FitnessClubRepository>();
 
     final client = Client(
-      id: isEditing ? widget.id! : DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      id: isEditing
+          ? widget.id!
+          : DateTime.now().millisecondsSinceEpoch ~/ 1000,
       fullName: _nameController.text.trim(),
       email: _emailController.text.trim(),
       phone: _phoneController.text.trim(),
@@ -91,8 +96,13 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(isEditing ? 'Редактировать клиента' : 'Новый клиент (Карта 1:1)'),
-          leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.go('/clients')),
+          title: Text(
+            isEditing ? 'Редактировать клиента' : 'Новый клиент (Карта 1:1)',
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.go('/clients'),
+          ),
         ),
         body: Center(
           child: ConstrainedBox(
@@ -101,21 +111,35 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
               padding: const EdgeInsets.all(24),
               child: Form(
                 key: _formKey,
-                onChanged: () { if (!_isDirty) setState(() => _isDirty = true); },
+                onChanged: () {
+                  if (!_isDirty) setState(() => _isDirty = true);
+                },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text('Данные клиента:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    const Text(
+                      'Данные клиента:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _nameController,
-                      decoration: const InputDecoration(labelText: 'ФИО клиента *', border: OutlineInputBorder()),
+                      decoration: const InputDecoration(
+                        labelText: 'ФИО клиента *',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: AppValidators.requiredField,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _emailController,
-                      decoration: const InputDecoration(labelText: 'Email *', border: OutlineInputBorder()),
+                      decoration: const InputDecoration(
+                        labelText: 'Email *',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: (val) {
                         final err = AppValidators.email(val);
                         if (err != null) return err;
@@ -128,27 +152,46 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _phoneController,
-                      decoration: const InputDecoration(labelText: 'Телефон *', border: OutlineInputBorder()),
+                      decoration: const InputDecoration(
+                        labelText: 'Телефон *',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: AppValidators.requiredField,
                     ),
                     const SizedBox(height: 24),
-                    const Text('Клубная карта:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    const Text(
+                      'Клубная карта:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _cardNumberController,
-                      decoration: const InputDecoration(labelText: 'Номер карты *', border: OutlineInputBorder()),
+                      decoration: const InputDecoration(
+                        labelText: 'Номер карты *',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: AppValidators.requiredField,
                     ),
                     const SizedBox(height: 12),
                     TextFormField(
                       controller: _validUntilController,
-                      decoration: const InputDecoration(labelText: 'Действует до (ГГГГ-ММ-ДД) *', border: OutlineInputBorder()),
+                      decoration: const InputDecoration(
+                        labelText: 'Действует до (ГГГГ-ММ-ДД) *',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: AppValidators.requiredField,
                     ),
                     const SizedBox(height: 24),
                     FilledButton(
                       onPressed: _submit,
-                      child: Text(isEditing ? 'Сохранить изменения' : 'Создать клиента и карту'),
+                      child: Text(
+                        isEditing
+                            ? 'Сохранить изменения'
+                            : 'Создать клиента и карту',
+                      ),
                     ),
                   ],
                 ),
@@ -167,10 +210,17 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
             title: const Text('Несохранённые изменения'),
             content: const Text('Уйти без сохранения данных клиента?'),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Остаться')),
-              FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Уйти')),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('Остаться'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: const Text('Уйти'),
+              ),
             ],
           ),
-        ) ?? false;
+        ) ??
+        false;
   }
 }

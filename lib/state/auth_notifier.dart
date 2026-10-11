@@ -33,7 +33,8 @@ class AuthNotifier extends ChangeNotifier {
     final sessionStartTime = _prefs.getInt(_kSessionStart) ?? 0;
 
     final now = DateTime.now().millisecondsSinceEpoch;
-    if (sessionStartTime > 0 && (now - sessionStartTime > _maxSessionDurationMs)) {
+    if (sessionStartTime > 0 &&
+        (now - sessionStartTime > _maxSessionDurationMs)) {
       await logout();
       _isInitialized = true;
       notifyListeners();
@@ -53,10 +54,10 @@ class AuthNotifier extends ChangeNotifier {
 
   Future<void> login(String username, String password) async {
     final dio = Dio(BaseOptions(baseUrl: apiBaseUrl));
-    final res = await dio.post('/auth/login', data: {
-      'username': username,
-      'password': password,
-    });
+    final res = await dio.post(
+      '/auth/login',
+      data: {'username': username, 'password': password},
+    );
 
     final data = res.data as Map<String, dynamic>;
     _accessToken = data['accessToken'] as String;
@@ -72,14 +73,22 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> register(String username, String fullName, String password, Role role) async {
+  Future<void> register(
+    String username,
+    String fullName,
+    String password,
+    Role role,
+  ) async {
     final dio = Dio(BaseOptions(baseUrl: apiBaseUrl));
-    final res = await dio.post('/auth/register', data: {
-      'username': username,
-      'fullName': fullName,
-      'password': password,
-      'role': role.name,
-    });
+    final res = await dio.post(
+      '/auth/register',
+      data: {
+        'username': username,
+        'fullName': fullName,
+        'password': password,
+        'role': role.name,
+      },
+    );
 
     final data = res.data as Map<String, dynamic>;
     _accessToken = data['accessToken'] as String;
@@ -104,7 +113,10 @@ class AuthNotifier extends ChangeNotifier {
 
     try {
       final dio = Dio(BaseOptions(baseUrl: apiBaseUrl));
-      final res = await dio.post('/auth/refresh', data: {'refreshToken': refresh});
+      final res = await dio.post(
+        '/auth/refresh',
+        data: {'refreshToken': refresh},
+      );
       final data = res.data as Map<String, dynamic>;
 
       _accessToken = data['accessToken'] as String;

@@ -43,13 +43,18 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item.title, style: Theme.of(context).textTheme.headlineSmall),
+                      Text(
+                        item.title,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                       const SizedBox(height: 12),
                       Text('Артикул программы: ${item.code}'),
                       Text('Продолжительность: ${item.durationMinutes} минут'),
                       Text('Сжигание калорий: ~${item.caloriesBurned} ккал'),
                       Text('Уровень нагрузки: ${item.intensity} из 5'),
-                      Text('Свободно мест в группе: ${item.capacityAvailable} из ${item.capacityTotal}'),
+                      Text(
+                        'Свободно мест в группе: ${item.capacityAvailable} из ${item.capacityTotal}',
+                      ),
                       const SizedBox(height: 24),
                       FilledButton(
                         onPressed: () => context.go('/'),

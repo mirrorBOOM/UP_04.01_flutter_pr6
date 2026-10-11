@@ -5,7 +5,11 @@ class GymHall {
 
   const GymHall({required this.id, required this.name, required this.capacity});
 
-  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'capacity': capacity};
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'capacity': capacity,
+  };
 
   factory GymHall.fromJson(Map<String, dynamic> json) => GymHall(
     id: json['id'] as int? ?? 0,

@@ -32,7 +32,9 @@ class Trainer {
     specialization: json['specialization'] as String? ?? '',
     experienceYears: json['experienceYears'] as int? ?? 0,
     category: json['category'] as String? ?? 'PRO',
-    deletedAt: json['deletedAt'] == null ? null : DateTime.tryParse(json['deletedAt'] as String),
+    deletedAt: json['deletedAt'] == null
+        ? null
+        : DateTime.tryParse(json['deletedAt'] as String),
   );
 
   Trainer copyWith({

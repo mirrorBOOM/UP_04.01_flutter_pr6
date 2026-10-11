@@ -37,11 +37,15 @@ class WorkoutQuery {
     return WorkoutQuery(
       search: search ?? this.search,
       trainerId: trainerId == _unset ? this.trainerId : trainerId as int?,
-      minIntensity: minIntensity == _unset ? this.minIntensity : minIntensity as int?,
-      maxDuration: maxDuration == _unset ? this.maxDuration : maxDuration as int?,
+      minIntensity: minIntensity == _unset
+          ? this.minIntensity
+          : minIntensity as int?,
+      maxDuration: maxDuration == _unset
+          ? this.maxDuration
+          : maxDuration as int?,
       sortField: sortField ?? this.sortField,
       sortAscending: sortAscending ?? this.sortAscending,
-      page: page ?? 1, 
+      page: page ?? 1,
       size: size ?? this.size,
       includeDeleted: includeDeleted ?? this.includeDeleted,
     );

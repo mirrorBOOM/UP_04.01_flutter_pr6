@@ -47,17 +47,24 @@ class EntityTable<T> extends StatelessWidget {
         child: DataTable(
           sortColumnIndex: sortField == null
               ? null
-              : columns.indexWhere((c) => c.sortField == sortField).clamp(0, columns.length - 1),
+              : columns
+                    .indexWhere((c) => c.sortField == sortField)
+                    .clamp(0, columns.length - 1),
           sortAscending: sortAscending,
           columns: [
             if (onToggleSelect != null) const DataColumn(label: Text('')),
-            ...columns.map((c) => DataColumn(
-                  label: Text(c.label, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  numeric: c.numeric,
-                  onSort: c.sortField != null && onSort != null
-                      ? (_, __) => onSort!(c.sortField!)
-                      : null,
-                )),
+            ...columns.map(
+              (c) => DataColumn(
+                label: Text(
+                  c.label,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                numeric: c.numeric,
+                onSort: c.sortField != null && onSort != null
+                    ? (_, __) => onSort!(c.sortField!)
+                    : null,
+              ),
+            ),
             if (actions != null) const DataColumn(label: Text('Действия')),
           ],
           rows: items.map((item) {
@@ -68,10 +75,12 @@ class EntityTable<T> extends StatelessWidget {
               selected: isChecked,
               cells: [
                 if (onToggleSelect != null)
-                  DataCell(Checkbox(
-                    value: isChecked,
-                    onChanged: (_) => onToggleSelect!(id),
-                  )),
+                  DataCell(
+                    Checkbox(
+                      value: isChecked,
+                      onChanged: (_) => onToggleSelect!(id),
+                    ),
+                  ),
                 ...columns.map((c) => DataCell(c.build(item))),
                 if (actions != null) DataCell(Row(children: actions!(item))),
               ],

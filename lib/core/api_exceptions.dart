@@ -20,7 +20,9 @@ class UnauthorizedException extends ApiException {
 }
 
 class ForbiddenException extends ApiException {
-  const ForbiddenException([super.message = 'Недостаточно прав для этого действия.']);
+  const ForbiddenException([
+    super.message = 'Недостаточно прав для этого действия.',
+  ]);
 }
 
 class NotFoundException extends ApiException {
@@ -37,7 +39,9 @@ class ValidationException extends ApiException {
 }
 
 class ServerException extends ApiException {
-  const ServerException([super.message = 'Ошибка на сервере. Попробуйте позже.']);
+  const ServerException([
+    super.message = 'Ошибка на сервере. Попробуйте позже.',
+  ]);
 }
 
 ApiException mapHttpError(int status, dynamic body) {
@@ -47,15 +51,19 @@ ApiException mapHttpError(int status, dynamic body) {
 
   return switch (status) {
     401 => UnauthorizedException(message ?? 'Требуется вход в систему.'),
-    403 => ForbiddenException(message ?? 'Недостаточно прав для этого действия.'),
+    403 => ForbiddenException(
+      message ?? 'Недостаточно прав для этого действия.',
+    ),
     404 => NotFoundException(message ?? 'Запись не найдена.'),
-    409 => ConflictException(message ?? 'Операция невозможна из-за конфликта данных.'),
+    409 => ConflictException(
+      message ?? 'Операция невозможна из-за конфликта данных.',
+    ),
     422 => ValidationException(
-        message ?? 'Ошибка валидации данных',
-        (body is Map && body['errors'] is Map)
-            ? (body['errors'] as Map).map((k, v) => MapEntry('$k', '$v'))
-            : const {},
-      ),
+      message ?? 'Ошибка валидации данных',
+      (body is Map && body['errors'] is Map)
+          ? (body['errors'] as Map).map((k, v) => MapEntry('$k', '$v'))
+          : const {},
+    ),
     _ => ServerException(message ?? 'Неизвестная ошибка (код $status).'),
   };
 }
@@ -67,8 +75,9 @@ ApiException mapDioError(DioException e) {
   return switch (e.type) {
     DioExceptionType.connectionTimeout ||
     DioExceptionType.sendTimeout ||
-    DioExceptionType.receiveTimeout =>
-      const NetworkException('Сервер не ответил вовремя (Timeout).'),
+    DioExceptionType.receiveTimeout => const NetworkException(
+      'Сервер не ответил вовремя (Timeout).',
+    ),
     DioExceptionType.connectionError => const NetworkException(),
     DioExceptionType.cancel => const NetworkException('Запрос отменён.'),
     _ => const ServerException(),

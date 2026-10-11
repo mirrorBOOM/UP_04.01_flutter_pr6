@@ -21,11 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
 
     try {
       final auth = context.read<AuthNotifier>();
-      await auth.login(_userController.text.trim(), _passController.text.trim());
+      await auth.login(
+        _userController.text.trim(),
+        _passController.text.trim(),
+      );
       if (!mounted) return;
       context.go(widget.from ?? '/');
     } catch (e) {
@@ -51,27 +57,43 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.fitness_center, size: 64, color: Colors.deepOrange),
+                    const Icon(
+                      Icons.fitness_center,
+                      size: 64,
+                      color: Colors.deepOrange,
+                    ),
                     const SizedBox(height: 12),
-                    Text('Вход в Фитнес-клуб', style: Theme.of(context).textTheme.headlineSmall),
+                    Text(
+                      'Вход в Фитнес-клуб',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
                     const SizedBox(height: 20),
                     if (_error != null)
                       Container(
                         padding: const EdgeInsets.all(8),
                         margin: const EdgeInsets.only(bottom: 16),
                         color: Colors.red.shade50,
-                        child: Text(_error!, style: const TextStyle(color: Colors.red)),
+                        child: Text(
+                          _error!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
                       ),
                     TextFormField(
                       controller: _userController,
-                      decoration: const InputDecoration(labelText: 'Логин', border: OutlineInputBorder()),
+                      decoration: const InputDecoration(
+                        labelText: 'Логин',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: AppValidators.requiredField,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passController,
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: 'Пароль', border: OutlineInputBorder()),
+                      decoration: const InputDecoration(
+                        labelText: 'Пароль',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: AppValidators.requiredField,
                     ),
                     const SizedBox(height: 24),
@@ -79,7 +101,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: double.infinity,
                       child: FilledButton(
                         onPressed: _loading ? null : _submit,
-                        child: _loading ? const CircularProgressIndicator(color: Colors.white) : const Text('Войти'),
+                        child: _loading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text('Войти'),
                       ),
                     ),
                     const SizedBox(height: 12),

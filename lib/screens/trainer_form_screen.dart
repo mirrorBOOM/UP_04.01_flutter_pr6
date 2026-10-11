@@ -46,7 +46,9 @@ class _TrainerFormScreenState extends State<TrainerFormScreen> {
     final repo = context.read<FitnessClubRepository>();
 
     final trainer = Trainer(
-      id: isEditing ? widget.id! : DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      id: isEditing
+          ? widget.id!
+          : DateTime.now().millisecondsSinceEpoch ~/ 1000,
       fullName: _nameController.text.trim(),
       specialization: _specController.text.trim(),
       experienceYears: int.parse(_expController.text.trim()),
@@ -62,7 +64,10 @@ class _TrainerFormScreenState extends State<TrainerFormScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(isEditing ? 'Редактировать тренера' : 'Новый тренер'),
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.go('/trainers')),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/trainers'),
+        ),
       ),
       body: Center(
         child: ConstrainedBox(
@@ -76,37 +81,60 @@ class _TrainerFormScreenState extends State<TrainerFormScreen> {
                 children: [
                   TextFormField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'ФИО тренера *', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      labelText: 'ФИО тренера *',
+                      border: OutlineInputBorder(),
+                    ),
                     validator: AppValidators.requiredField,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _specController,
-                    decoration: const InputDecoration(labelText: 'Специализация *', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      labelText: 'Специализация *',
+                      border: OutlineInputBorder(),
+                    ),
                     validator: AppValidators.requiredField,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _expController,
-                    decoration: const InputDecoration(labelText: 'Опыт работы (лет) *', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      labelText: 'Опыт работы (лет) *',
+                      border: OutlineInputBorder(),
+                    ),
                     keyboardType: TextInputType.number,
                     validator: AppValidators.positiveInt,
                   ),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<String>(
                     initialValue: _category,
-                    decoration: const InputDecoration(labelText: 'Квалификация', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      labelText: 'Квалификация',
+                      border: OutlineInputBorder(),
+                    ),
                     items: const [
-                      DropdownMenuItem(value: 'PRO', child: Text('PRO Инструктор')),
-                      DropdownMenuItem(value: 'MASTER', child: Text('MASTER Тренер')),
-                      DropdownMenuItem(value: 'VIP', child: Text('VIP Эксперт')),
+                      DropdownMenuItem(
+                        value: 'PRO',
+                        child: Text('PRO Инструктор'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'MASTER',
+                        child: Text('MASTER Тренер'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'VIP',
+                        child: Text('VIP Эксперт'),
+                      ),
                     ],
                     onChanged: (val) => setState(() => _category = val!),
                   ),
                   const SizedBox(height: 24),
                   FilledButton(
                     onPressed: _submit,
-                    child: Text(isEditing ? 'Сохранить изменения' : 'Добавить тренера'),
+                    child: Text(
+                      isEditing ? 'Сохранить изменения' : 'Добавить тренера',
+                    ),
                   ),
                 ],
               ),

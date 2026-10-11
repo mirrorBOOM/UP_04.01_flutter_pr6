@@ -55,7 +55,10 @@ class _InactivityWatcherState extends State<InactivityWatcher> {
     }
 
     final warnTime = widget.timeout - widget.warningBefore;
-    _warningTimer = Timer(warnTime > Duration.zero ? warnTime : Duration.zero, _showWarningDialog);
+    _warningTimer = Timer(
+      warnTime > Duration.zero ? warnTime : Duration.zero,
+      _showWarningDialog,
+    );
     _actionTimer = Timer(widget.timeout, widget.onTimeout);
   }
 
@@ -67,7 +70,9 @@ class _InactivityWatcherState extends State<InactivityWatcher> {
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         title: const Text('Предупреждение о неактивности'),
-        content: const Text('Вы не проявляли активности. Сессия завершится через 30 секунд.'),
+        content: const Text(
+          'Вы не проявляли активности. Сессия завершится через 30 секунд.',
+        ),
         actions: [
           FilledButton(
             onPressed: () {
@@ -76,7 +81,7 @@ class _InactivityWatcherState extends State<InactivityWatcher> {
               _restart();
             },
             child: const Text('Продолжить работу'),
-          )
+          ),
         ],
       ),
     );

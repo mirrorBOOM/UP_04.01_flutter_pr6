@@ -22,7 +22,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool get _hasMinLength => _passController.text.length >= 8;
   bool get _hasNumber => RegExp(r'\d').hasMatch(_passController.text);
-  bool get _hasSpecial => RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(_passController.text);
+  bool get _hasSpecial =>
+      RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(_passController.text);
   bool get _isPasswordValid => _hasMinLength && _hasNumber && _hasSpecial;
 
   void _submit() async {
@@ -31,11 +32,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     try {
       final auth = context.read<AuthNotifier>();
-      await auth.register(_userController.text.trim(), _nameController.text.trim(), _passController.text.trim(), _role);
+      await auth.register(
+        _userController.text.trim(),
+        _nameController.text.trim(),
+        _passController.text.trim(),
+        _role,
+      );
       if (!mounted) return;
       context.go('/');
     } catch (_) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Ошибка регистрации')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Ошибка регистрации')));
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -56,27 +64,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   TextFormField(
                     controller: _userController,
-                    decoration: const InputDecoration(labelText: 'Логин *', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      labelText: 'Логин *',
+                      border: OutlineInputBorder(),
+                    ),
                     validator: AppValidators.requiredField,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'ФИО *', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      labelText: 'ФИО *',
+                      border: OutlineInputBorder(),
+                    ),
                     validator: AppValidators.requiredField,
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<Role>(
-                    value: _role,
-                    decoration: const InputDecoration(labelText: 'Роль в клубе', border: OutlineInputBorder()),
-                    items: Role.values.map((r) => DropdownMenuItem(value: r, child: Text(r.label))).toList(),
-                    onChanged: (val) => setState(() => _role = val ?? Role.client),
+                    initialValue: _role,
+                    decoration: const InputDecoration(
+                      labelText: 'Роль в клубе',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: Role.values
+                        .map(
+                          (r) =>
+                              DropdownMenuItem(value: r, child: Text(r.label)),
+                        )
+                        .toList(),
+                    onChanged: (val) =>
+                        setState(() => _role = val ?? Role.client),
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _passController,
                     obscureText: true,
-                    decoration: const InputDecoration(labelText: 'Пароль *', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      labelText: 'Пароль *',
+                      border: OutlineInputBorder(),
+                    ),
                     onChanged: (_) => setState(() {}),
                   ),
                   const SizedBox(height: 8),
@@ -87,7 +113,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: (_loading || !_isPasswordValid) ? null : _submit,
+                      onPressed: (_loading || !_isPasswordValid)
+                          ? null
+                          : _submit,
                       child: const Text('Зарегистрироваться'),
                     ),
                   ),
@@ -103,9 +131,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildRule(String text, bool ok) {
     return Row(
       children: [
-        Icon(ok ? Icons.check_circle : Icons.cancel, color: ok ? Colors.green : Colors.red, size: 18),
+        Icon(
+          ok ? Icons.check_circle : Icons.cancel,
+          color: ok ? Colors.green : Colors.red,
+          size: 18,
+        ),
         const SizedBox(width: 8),
-        Text(text, style: TextStyle(color: ok ? Colors.green : Colors.red, fontSize: 13)),
+        Text(
+          text,
+          style: TextStyle(color: ok ? Colors.green : Colors.red, fontSize: 13),
+        ),
       ],
     );
   }

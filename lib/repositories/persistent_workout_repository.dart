@@ -25,7 +25,9 @@ class FitnessClubRepository implements WorkoutRepository {
   void _restoreAll() {
     final hallsRaw = _prefs.getString('halls_v1');
     if (hallsRaw != null) {
-      _halls = (jsonDecode(hallsRaw) as List).map((e) => GymHall.fromJson(e)).toList();
+      _halls = (jsonDecode(hallsRaw) as List)
+          .map((e) => GymHall.fromJson(e))
+          .toList();
     } else {
       _halls = [
         const GymHall(id: 1, name: 'Главный CrossFit зал', capacity: 25),
@@ -37,7 +39,9 @@ class FitnessClubRepository implements WorkoutRepository {
 
     final catsRaw = _prefs.getString('categories_v1');
     if (catsRaw != null) {
-      _categories = (jsonDecode(catsRaw) as List).map((e) => WorkoutCategory.fromJson(e)).toList();
+      _categories = (jsonDecode(catsRaw) as List)
+          .map((e) => WorkoutCategory.fromJson(e))
+          .toList();
     } else {
       _categories = [
         const WorkoutCategory(id: 1, name: 'Силовые'),
@@ -50,19 +54,41 @@ class FitnessClubRepository implements WorkoutRepository {
 
     final trainersRaw = _prefs.getString('trainers_v1');
     if (trainersRaw != null) {
-      _trainers = (jsonDecode(trainersRaw) as List).map((e) => Trainer.fromJson(e)).toList();
+      _trainers = (jsonDecode(trainersRaw) as List)
+          .map((e) => Trainer.fromJson(e))
+          .toList();
     } else {
       _trainers = [
-        const Trainer(id: 1, fullName: 'Александр Ковалёв', specialization: 'CrossFit & TRX', experienceYears: 8, category: 'VIP'),
-        const Trainer(id: 2, fullName: 'Елена Миронова', specialization: 'Йога & Пилатес', experienceYears: 10, category: 'MASTER'),
-        const Trainer(id: 3, fullName: 'Руслан Багиров', specialization: 'Бокс & Кикбоксинг', experienceYears: 12, category: 'VIP'),
+        const Trainer(
+          id: 1,
+          fullName: 'Александр Ковалёв',
+          specialization: 'CrossFit & TRX',
+          experienceYears: 8,
+          category: 'VIP',
+        ),
+        const Trainer(
+          id: 2,
+          fullName: 'Елена Миронова',
+          specialization: 'Йога & Пилатес',
+          experienceYears: 10,
+          category: 'MASTER',
+        ),
+        const Trainer(
+          id: 3,
+          fullName: 'Руслан Багиров',
+          specialization: 'Бокс & Кикбоксинг',
+          experienceYears: 12,
+          category: 'VIP',
+        ),
       ];
       _saveTrainers();
     }
 
     final clientsRaw = _prefs.getString('clients_v1');
     if (clientsRaw != null) {
-      _clients = (jsonDecode(clientsRaw) as List).map((e) => Client.fromJson(e)).toList();
+      _clients = (jsonDecode(clientsRaw) as List)
+          .map((e) => Client.fromJson(e))
+          .toList();
     } else {
       _clients = [
         const Client(
@@ -70,7 +96,11 @@ class FitnessClubRepository implements WorkoutRepository {
           fullName: 'Иван Иванов',
           email: 'ivan@fitness.ru',
           phone: '+7 999 111-22-33',
-          card: MembershipCard(cardNumber: 'CARD-101', validUntil: '2026-12-31', status: 'ACTIVE'),
+          card: MembershipCard(
+            cardNumber: 'CARD-101',
+            validUntil: '2026-12-31',
+            status: 'ACTIVE',
+          ),
         ),
       ];
       _saveClients();
@@ -78,22 +108,75 @@ class FitnessClubRepository implements WorkoutRepository {
 
     final workoutsRaw = _prefs.getString('workouts_v4');
     if (workoutsRaw != null) {
-      _workouts = (jsonDecode(workoutsRaw) as List).map((e) => Workout.fromJson(e)).toList();
+      _workouts = (jsonDecode(workoutsRaw) as List)
+          .map((e) => Workout.fromJson(e))
+          .toList();
     } else {
       _workouts = [
-        const Workout(id: 1, title: 'CrossFit WOD Pro', code: 'CRF-101', durationMinutes: 60, caloriesBurned: 750, intensity: 5, hallId: 1, trainerId: 1, categoryIds: [1, 2], capacityTotal: 15, capacityAvailable: 4),
-        const Workout(id: 2, title: 'Хатха-йога Баланс', code: 'YOG-201', durationMinutes: 75, caloriesBurned: 320, intensity: 2, hallId: 2, trainerId: 2, categoryIds: [3], capacityTotal: 20, capacityAvailable: 11),
-        const Workout(id: 3, title: 'Бокс Classic', code: 'BOX-301', durationMinutes: 60, caloriesBurned: 800, intensity: 5, hallId: 3, trainerId: 3, categoryIds: [4], capacityTotal: 12, capacityAvailable: 2),
+        const Workout(
+          id: 1,
+          title: 'CrossFit WOD Pro',
+          code: 'CRF-101',
+          durationMinutes: 60,
+          caloriesBurned: 750,
+          intensity: 5,
+          hallId: 1,
+          trainerId: 1,
+          categoryIds: [1, 2],
+          capacityTotal: 15,
+          capacityAvailable: 4,
+        ),
+        const Workout(
+          id: 2,
+          title: 'Хатха-йога Баланс',
+          code: 'YOG-201',
+          durationMinutes: 75,
+          caloriesBurned: 320,
+          intensity: 2,
+          hallId: 2,
+          trainerId: 2,
+          categoryIds: [3],
+          capacityTotal: 20,
+          capacityAvailable: 11,
+        ),
+        const Workout(
+          id: 3,
+          title: 'Бокс Classic',
+          code: 'BOX-301',
+          durationMinutes: 60,
+          caloriesBurned: 800,
+          intensity: 5,
+          hallId: 3,
+          trainerId: 3,
+          categoryIds: [4],
+          capacityTotal: 12,
+          capacityAvailable: 2,
+        ),
       ];
       _saveWorkouts();
     }
   }
 
-  Future<void> _saveWorkouts() => _prefs.setString('workouts_v4', jsonEncode(_workouts.map((e) => e.toJson()).toList()));
-  Future<void> _saveTrainers() => _prefs.setString('trainers_v1', jsonEncode(_trainers.map((e) => e.toJson()).toList()));
-  Future<void> _saveHalls() => _prefs.setString('halls_v1', jsonEncode(_halls.map((e) => e.toJson()).toList()));
-  Future<void> _saveCategories() => _prefs.setString('categories_v1', jsonEncode(_categories.map((e) => e.toJson()).toList()));
-  Future<void> _saveClients() => _prefs.setString('clients_v1', jsonEncode(_clients.map((e) => e.toJson()).toList()));
+  Future<void> _saveWorkouts() => _prefs.setString(
+    'workouts_v4',
+    jsonEncode(_workouts.map((e) => e.toJson()).toList()),
+  );
+  Future<void> _saveTrainers() => _prefs.setString(
+    'trainers_v1',
+    jsonEncode(_trainers.map((e) => e.toJson()).toList()),
+  );
+  Future<void> _saveHalls() => _prefs.setString(
+    'halls_v1',
+    jsonEncode(_halls.map((e) => e.toJson()).toList()),
+  );
+  Future<void> _saveCategories() => _prefs.setString(
+    'categories_v1',
+    jsonEncode(_categories.map((e) => e.toJson()).toList()),
+  );
+  Future<void> _saveClients() => _prefs.setString(
+    'clients_v1',
+    jsonEncode(_clients.map((e) => e.toJson()).toList()),
+  );
 
   List<GymHall> get allHalls => List.unmodifiable(_halls);
   List<WorkoutCategory> get allCategories => List.unmodifiable(_categories);
@@ -112,8 +195,9 @@ class FitnessClubRepository implements WorkoutRepository {
   }
 
   @override
-  bool isCodeTaken(String code, [int? currentId]) =>
-      _workouts.any((w) => w.code.toLowerCase() == code.toLowerCase() && w.id != currentId);
+  bool isCodeTaken(String code, [int? currentId]) => _workouts.any(
+    (w) => w.code.toLowerCase() == code.toLowerCase() && w.id != currentId,
+  );
 
   @override
   int countWorkoutsInHall(int hallId) =>
@@ -121,10 +205,18 @@ class FitnessClubRepository implements WorkoutRepository {
 
   @override
   Future<PageResult<Workout>> find(WorkoutQuery q) async {
-    var rows = _workouts.where((w) => q.includeDeleted || !w.isDeleted).toList();
+    var rows = _workouts
+        .where((w) => q.includeDeleted || !w.isDeleted)
+        .toList();
     if (q.search.isNotEmpty) {
       final needle = q.search.toLowerCase();
-      rows = rows.where((w) => w.title.toLowerCase().contains(needle) || w.code.toLowerCase().contains(needle)).toList();
+      rows = rows
+          .where(
+            (w) =>
+                w.title.toLowerCase().contains(needle) ||
+                w.code.toLowerCase().contains(needle),
+          )
+          .toList();
     }
     final total = rows.length;
     final from = (q.page - 1) * q.size;
@@ -135,22 +227,35 @@ class FitnessClubRepository implements WorkoutRepository {
 
   @override
   Future<Workout?> findById(int id) async {
-    try { return _workouts.firstWhere((w) => w.id == id); } catch (_) { return null; }
+    try {
+      return _workouts.firstWhere((w) => w.id == id);
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
   Future<void> softDelete(int id) async {
     final i = _workouts.indexWhere((w) => w.id == id);
-    if (i != -1) { _workouts[i] = _workouts[i].copyWith(deletedAt: DateTime.now()); await _saveWorkouts(); }
+    if (i != -1) {
+      _workouts[i] = _workouts[i].copyWith(deletedAt: DateTime.now());
+      await _saveWorkouts();
+    }
   }
 
   @override
-  Future<void> hardDelete(int id) async { _workouts.removeWhere((w) => w.id == id); await _saveWorkouts(); }
+  Future<void> hardDelete(int id) async {
+    _workouts.removeWhere((w) => w.id == id);
+    await _saveWorkouts();
+  }
 
   @override
   Future<void> restore(int id) async {
     final i = _workouts.indexWhere((w) => w.id == id);
-    if (i != -1) { _workouts[i] = _workouts[i].copyWith(clearDeletedAt: true); await _saveWorkouts(); }
+    if (i != -1) {
+      _workouts[i] = _workouts[i].copyWith(clearDeletedAt: true);
+      await _saveWorkouts();
+    }
   }
 
   @override
@@ -158,7 +263,10 @@ class FitnessClubRepository implements WorkoutRepository {
     var count = 0;
     for (final id in ids) {
       final i = _workouts.indexWhere((w) => w.id == id && !w.isDeleted);
-      if (i != -1) { _workouts[i] = _workouts[i].copyWith(deletedAt: DateTime.now()); count++; }
+      if (i != -1) {
+        _workouts[i] = _workouts[i].copyWith(deletedAt: DateTime.now());
+        count++;
+      }
     }
     await _saveWorkouts();
     return count;
@@ -166,7 +274,11 @@ class FitnessClubRepository implements WorkoutRepository {
 
   Future<void> saveTrainer(Trainer trainer) async {
     final idx = _trainers.indexWhere((t) => t.id == trainer.id);
-    if (idx != -1) { _trainers[idx] = trainer; } else { _trainers.add(trainer); }
+    if (idx != -1) {
+      _trainers[idx] = trainer;
+    } else {
+      _trainers.add(trainer);
+    }
     await _saveTrainers();
   }
 
@@ -176,17 +288,25 @@ class FitnessClubRepository implements WorkoutRepository {
   }
 
   Trainer? findTrainerById(int id) {
-    try { return _trainers.firstWhere((t) => t.id == id); } catch (_) { return null; }
+    try {
+      return _trainers.firstWhere((t) => t.id == id);
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> saveHall(GymHall hall) async {
     final idx = _halls.indexWhere((h) => h.id == hall.id);
-    if (idx != -1) { _halls[idx] = hall; } else { _halls.add(hall); }
+    if (idx != -1) {
+      _halls[idx] = hall;
+    } else {
+      _halls.add(hall);
+    }
     await _saveHalls();
   }
 
   Future<bool> deleteHall(int id) async {
-    if (countWorkoutsInHall(id) > 0) return false; 
+    if (countWorkoutsInHall(id) > 0) return false;
     _halls.removeWhere((h) => h.id == id);
     await _saveHalls();
     return true;
@@ -194,7 +314,11 @@ class FitnessClubRepository implements WorkoutRepository {
 
   Future<void> saveCategory(WorkoutCategory cat) async {
     final idx = _categories.indexWhere((c) => c.id == cat.id);
-    if (idx != -1) { _categories[idx] = cat; } else { _categories.add(cat); }
+    if (idx != -1) {
+      _categories[idx] = cat;
+    } else {
+      _categories.add(cat);
+    }
     await _saveCategories();
   }
 
@@ -203,12 +327,17 @@ class FitnessClubRepository implements WorkoutRepository {
     await _saveCategories();
   }
 
-  bool isClientEmailTaken(String email, [int? currentId]) =>
-      _clients.any((c) => c.email.toLowerCase() == email.toLowerCase() && c.id != currentId);
+  bool isClientEmailTaken(String email, [int? currentId]) => _clients.any(
+    (c) => c.email.toLowerCase() == email.toLowerCase() && c.id != currentId,
+  );
 
   Future<void> saveClient(Client client) async {
     final idx = _clients.indexWhere((c) => c.id == client.id);
-    if (idx != -1) { _clients[idx] = client; } else { _clients.add(client); }
+    if (idx != -1) {
+      _clients[idx] = client;
+    } else {
+      _clients.add(client);
+    }
     await _saveClients();
   }
 

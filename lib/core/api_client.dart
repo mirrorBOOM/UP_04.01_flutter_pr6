@@ -46,12 +46,12 @@ Dio buildDio({required AuthNotifier authNotifier}) {
         final status = error.response?.statusCode;
         final path = error.requestOptions.path;
 
-
         if (status == 401 && !path.contains('/auth/')) {
           final success = await authNotifier.refreshTokens();
           if (success) {
             final opts = error.requestOptions;
-            opts.headers['Authorization'] = 'Bearer ${authNotifier.accessToken}';
+            opts.headers['Authorization'] =
+                'Bearer ${authNotifier.accessToken}';
             try {
               final cloneReq = await dio.fetch(opts);
               return handler.resolve(cloneReq);

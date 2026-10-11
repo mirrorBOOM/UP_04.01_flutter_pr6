@@ -18,7 +18,7 @@ Future<void> main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final authNotifier = AuthNotifier(prefs);
-  await authNotifier.restore(); 
+  await authNotifier.restore();
 
   final localRepo = FitnessClubRepository(prefs);
   final dio = buildDio(authNotifier: authNotifier);

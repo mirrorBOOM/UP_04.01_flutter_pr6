@@ -56,7 +56,9 @@ class Workout {
     categoryIds: (json['categoryIds'] as List?)?.cast<int>() ?? const [],
     capacityTotal: json['capacityTotal'] as int? ?? 0,
     capacityAvailable: json['capacityAvailable'] as int? ?? 0,
-    deletedAt: json['deletedAt'] == null ? null : DateTime.tryParse(json['deletedAt'] as String),
+    deletedAt: json['deletedAt'] == null
+        ? null
+        : DateTime.tryParse(json['deletedAt'] as String),
   );
 
   Workout copyWith({

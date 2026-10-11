@@ -15,6 +15,8 @@ import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/forbidden_screen.dart';
 import 'screens/admin_users_screen.dart';
+import 'screens/admin_stats_screen.dart';
+import 'screens/trainer_schedule_screen.dart';
 import 'screens/my_card_screen.dart';
 
 GoRouter buildAppRouter(AuthNotifier auth) {
@@ -26,12 +28,10 @@ GoRouter buildAppRouter(AuthNotifier auth) {
       final target = state.matchedLocation;
       final isPublic = target == '/login' || target == '/register';
 
-      // 1. Неавторизованный пользователь отправляется на вход с сохранением адреса (п. 11 ТЗ)
       if (!loggedIn && !isPublic) {
         return '/login?from=${Uri.encodeComponent(state.uri.toString())}';
       }
 
-      // 2. Авторизованный пользователь при попытке открыть форму входа переводится на главную
       if (loggedIn && isPublic) {
         return '/';
       }
@@ -43,14 +43,8 @@ GoRouter buildAppRouter(AuthNotifier auth) {
         path: '/login',
         builder: (c, s) => LoginScreen(from: s.uri.queryParameters['from']),
       ),
-      GoRoute(
-        path: '/register',
-        builder: (c, s) => const RegisterScreen(),
-      ),
-      GoRoute(
-        path: '/forbidden',
-        builder: (c, s) => const ForbiddenScreen(),
-      ),
+      GoRoute(path: '/register', builder: (c, s) => const RegisterScreen()),
+      GoRoute(path: '/forbidden', builder: (c, s) => const ForbiddenScreen()),
       GoRoute(
         path: '/',
         builder: (context, state) {
@@ -63,7 +57,6 @@ GoRouter buildAppRouter(AuthNotifier auth) {
           );
         },
       ),
-      // Создание и изменение тренировок доступны роли Тренер и выше (п. 8, 9 ТЗ)
       GoRoute(
         path: '/workouts/new',
         redirect: (_, __) => auth.hasRole(Role.trainer) ? null : '/forbidden',
@@ -72,7 +65,8 @@ GoRouter buildAppRouter(AuthNotifier auth) {
       GoRoute(
         path: '/workouts/:id/edit',
         redirect: (_, __) => auth.hasRole(Role.trainer) ? null : '/forbidden',
-        builder: (c, s) => WorkoutFormScreen(id: int.tryParse(s.pathParameters['id'] ?? '')),
+        builder: (c, s) =>
+            WorkoutFormScreen(id: int.tryParse(s.pathParameters['id'] ?? '')),
       ),
       GoRoute(
         path: '/workouts/:id',
@@ -80,21 +74,23 @@ GoRouter buildAppRouter(AuthNotifier auth) {
           workoutId: int.tryParse(s.pathParameters['id'] ?? '') ?? 1,
         ),
       ),
-      // Панель администратора доступна исключительно роли Admin (п. 8 ТЗ)
       GoRoute(
         path: '/admin/users',
         redirect: (_, __) => auth.hasRole(Role.admin) ? null : '/forbidden',
         builder: (c, s) => const AdminUsersScreen(),
       ),
-      // Личный кабинет клиента (п. 8 ТЗ)
       GoRoute(
-        path: '/my-card',
-        builder: (c, s) => const MyCardScreen(),
+        path: '/admin/stats',
+        redirect: (_, __) => auth.hasRole(Role.admin) ? null : '/forbidden',
+        builder: (c, s) => const AdminStatsScreen(),
       ),
       GoRoute(
-        path: '/trainers',
-        builder: (c, s) => const TrainerListScreen(),
+        path: '/trainer/schedule',
+        redirect: (_, __) => auth.hasRole(Role.trainer) ? null : '/forbidden',
+        builder: (c, s) => const TrainerScheduleScreen(),
       ),
+      GoRoute(path: '/my-card', builder: (c, s) => const MyCardScreen()),
+      GoRoute(path: '/trainers', builder: (c, s) => const TrainerListScreen()),
       GoRoute(
         path: '/trainers/new',
         redirect: (_, __) => auth.hasRole(Role.admin) ? null : '/forbidden',
@@ -103,28 +99,21 @@ GoRouter buildAppRouter(AuthNotifier auth) {
       GoRoute(
         path: '/trainers/:id/edit',
         redirect: (_, __) => auth.hasRole(Role.admin) ? null : '/forbidden',
-        builder: (c, s) => TrainerFormScreen(id: int.tryParse(s.pathParameters['id'] ?? '')),
+        builder: (c, s) =>
+            TrainerFormScreen(id: int.tryParse(s.pathParameters['id'] ?? '')),
       ),
-      GoRoute(
-        path: '/clients',
-        builder: (c, s) => const ClientListScreen(),
-      ),
+      GoRoute(path: '/clients', builder: (c, s) => const ClientListScreen()),
       GoRoute(
         path: '/clients/new',
         builder: (c, s) => const ClientFormScreen(),
       ),
       GoRoute(
         path: '/clients/:id/edit',
-        builder: (c, s) => ClientFormScreen(id: int.tryParse(s.pathParameters['id'] ?? '')),
+        builder: (c, s) =>
+            ClientFormScreen(id: int.tryParse(s.pathParameters['id'] ?? '')),
       ),
-      GoRoute(
-        path: '/halls',
-        builder: (c, s) => const GymHallsScreen(),
-      ),
-      GoRoute(
-        path: '/categories',
-        builder: (c, s) => const CategoriesScreen(),
-      ),
+      GoRoute(path: '/halls', builder: (c, s) => const GymHallsScreen()),
+      GoRoute(path: '/categories', builder: (c, s) => const CategoriesScreen()),
     ],
   );
 }

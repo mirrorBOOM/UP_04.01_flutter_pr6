@@ -84,7 +84,9 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
     setState(() => _saving = true);
 
     final workout = Workout(
-      id: isEditing ? widget.id! : DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      id: isEditing
+          ? widget.id!
+          : DateTime.now().millisecondsSinceEpoch ~/ 1000,
       title: _titleController.text.trim(),
       code: _codeController.text.trim(),
       durationMinutes: int.parse(_durationController.text.trim()),
@@ -121,10 +123,7 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
     } on ApiException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.message),
-          backgroundColor: Colors.red,
-        ),
+        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
       );
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -152,7 +151,9 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(isEditing ? 'Редактирование тренировки' : 'Новая тренировка'),
+          title: Text(
+            isEditing ? 'Редактирование тренировки' : 'Новая тренировка',
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () async {
@@ -213,10 +214,12 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
                         border: OutlineInputBorder(),
                       ),
                       items: halls
-                          .map((h) => DropdownMenuItem(
-                                value: h.id,
-                                child: Text(h.name),
-                              ))
+                          .map(
+                            (h) => DropdownMenuItem(
+                              value: h.id,
+                              child: Text(h.name),
+                            ),
+                          )
                           .toList(),
                       onChanged: (val) {
                         setState(() {
@@ -230,10 +233,9 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
                     const SizedBox(height: 16),
                     FormField<List<int>>(
                       initialValue: _selectedCategoryIds,
-                      validator: (val) =>
-                          (val == null || val.isEmpty)
-                              ? 'Выберите хотя бы одну категорию'
-                              : null,
+                      validator: (val) => (val == null || val.isEmpty)
+                          ? 'Выберите хотя бы одну категорию'
+                          : null,
                       builder: (field) {
                         return InputDecorator(
                           decoration: InputDecoration(
@@ -244,14 +246,16 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
                           child: Wrap(
                             spacing: 8,
                             children: availableCategories.map((cat) {
-                              final isSelected =
-                                  _selectedCategoryIds.contains(cat.id);
+                              final isSelected = _selectedCategoryIds.contains(
+                                cat.id,
+                              );
                               return FilterChip(
                                 label: Text(cat.name),
                                 selected: isSelected,
                                 onSelected: (sel) {
-                                  final next =
-                                      List<int>.from(_selectedCategoryIds);
+                                  final next = List<int>.from(
+                                    _selectedCategoryIds,
+                                  );
                                   sel ? next.add(cat.id) : next.remove(cat.id);
                                   field.didChange(next);
                                   setState(() => _selectedCategoryIds = next);
